@@ -1,0 +1,202 @@
+/* Base styles and variables */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #202020;
+  --primary-color: #0066cc;
+  --secondary-color: #cccccc;
+  --table-border: #dddddd;
+  --modal-bg: rgba(0, 0, 0, 0.6);
+  --card-bg: #f9f9f9;
+}
+
+body.dark {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --primary-color: #4faaff;
+  --secondary-color: #444444;
+  --table-border: #333333;
+  --modal-bg: rgba(0, 0, 0, 0.8);
+  --card-bg: #1e1e1e;
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--table-border);
+  background: var(--card-bg);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--secondary-color);
+  transition: 0.4s;
+  border-radius: 34px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--bg-color);
+  transition: 0.4s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+  background-color: var(--primary-color);
+}
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+main {
+  padding: 1rem;
+}
+
+.toolbar {
+  margin-bottom: 0.5rem;
+}
+
+button {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+button.primary {
+  background-color: var(--primary-color);
+  color: var(--bg-color);
+}
+button.secondary {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+}
+button:hover {
+  opacity: 0.9;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--table-border);
+}
+tbody tr:hover {
+  background-color: var(--secondary-color);
+}
+
+.actions button {
+  margin-right: 0.3rem;
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--modal-bg);
+  z-index: 100;
+}
+.modal.hidden {
+  display: none;
+}
+.modal-content {
+  background: var(--card-bg);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+.modal-content h2 {
+  margin-top: 0;
+}
+label {
+  display: block;
+  margin: 0.5rem 0;
+}
+label input {
+  width: 100%;
+  padding: 0.4rem;
+  border: 1px solid var(--secondary-color);
+  border-radius: 4px;
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+label input[type="password"],
+label input[type="email"],
+label input[type="text"],
+label input[type="number"] {
+  font-size: 0.9rem;
+}
+.modal-actions {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: var(--primary-color);
+  margin-top: 0.5rem;
+}
+
+/* Chart modal overrides */
+.chart-modal {
+  max-width: 900px;
+  width: 100%;
+}
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.chart-header h2 {
+  margin: 0;
+}
+canvas {
+  width: 100% !important;
+  height: 400px !important;
+}
