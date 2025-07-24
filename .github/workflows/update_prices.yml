@@ -1,0 +1,43 @@
+name: Actualizar precios y alertas
+
+on:
+  schedule:
+    # Ejecución cada 10 minutos
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+    # Permite ejecución manual desde la interfaz de GitHub
+    inputs: {}
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Ejecutar script de actualización
+        env:
+          SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          ALERT_EMAIL: ${{ secrets.ALERT_EMAIL }}
+        run: |
+          python scripts/update_prices.py
+
+      - name: Confirmar y subir cambios
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          CHANGES=$(git status --porcelain)
+          if [ -n "$CHANGES" ]; then
+            # Añadir todos los archivos relevantes: watchlist, log y datos históricos
+            git add watchlist.json alerts_log.json historical_*.json || true
+            git commit -m 'Actualización automática de precios, alertas y datos históricos'
+            git push
+          else
+            echo 'No hay cambios para confirmar.'
+          fi
