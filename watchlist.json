@@ -1,0 +1,20 @@
+{
+  "assets": [
+    {
+      "symbol": "AAPL",
+      "name": "Apple Inc.",
+      "alert_above": 200.0,
+      "alert_below": 150.0,
+      "last_price": null,
+      "last_updated": null
+    },
+    {
+      "symbol": "BTC-USD",
+      "name": "Bitcoin",
+      "alert_above": 50000.0,
+      "alert_below": 30000.0,
+      "last_price": null,
+      "last_updated": null
+    }
+  ]
+}
