@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Seguimiento de Activos</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Chart.js and financial plugin for candlestick charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.0/build/global/luxon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.0/dist/chartjs-adapter-luxon.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@3.3.0/dist/chartjs-chart-financial.umd.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Lista de Seguimiento de Activos</h1>
+      <div class="header-buttons">
+        <button id="settingsButton" class="secondary">Configuración</button>
+        <label class="switch">
+          <input type="checkbox" id="themeToggle" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </header>
+    <main>
+      <section id="watchlistSection">
+        <div class="toolbar">
+          <button id="addAssetButton" class="primary">Agregar Activo</button>
+        </div>
+        <table id="assetsTable">
+          <thead>
+            <tr>
+              <th>Símbolo</th>
+              <th>Nombre</th>
+              <th>Precio Actual</th>
+              <th>Alerta Superior</th>
+              <th>Alerta Inferior</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="assetsBody"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <!-- Modal para agregar/editar activos -->
+    <div id="assetModal" class="modal hidden">
+      <div class="modal-content">
+        <h2 id="modalTitle">Agregar Activo</h2>
+        <form id="assetForm">
+          <label>
+            Símbolo (ej. AAPL, BTC-USD):
+            <input type="text" id="assetSymbol" required />
+          </label>
+          <label>
+            Nombre:
+            <input type="text" id="assetName" />
+          </label>
+          <label>
+            Alerta Superior:
+            <input type="number" id="assetAlertAbove" step="any" />
+          </label>
+          <label>
+            Alerta Inferior:
+            <input type="number" id="assetAlertBelow" step="any" />
+          </label>
+          <label>
+            Correo de alerta (opcional):
+            <input type="email" id="assetEmail" />
+          </label>
+          <div class="modal-actions">
+            <button type="submit" class="primary">Guardar</button>
+            <button type="button" id="cancelAsset" class="secondary">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal para ajustes de la aplicación -->
+    <div id="settingsModal" class="modal hidden">
+      <div class="modal-content">
+        <h2>Configuración</h2>
+        <form id="settingsForm">
+          <label>
+            Usuario de GitHub:
+            <input type="text" id="ghUsername" placeholder="tu_usuario" required />
+          </label>
+          <label>
+            Token de acceso personal de GitHub:
+            <input type="password" id="ghToken" required />
+          </label>
+          <label>
+            Nombre del repositorio:
+            <input type="text" id="ghRepo" placeholder="crypto_stock_watchlist" required />
+          </label>
+          <label>
+            Rama (branch):
+            <input type="text" id="ghBranch" value="main" />
+          </label>
+          <label>
+            Correo de alerta predeterminada:
+            <input type="email" id="alertEmail" placeholder="correo@ejemplo.com" />
+          </label>
+          <p class="hint">
+            El correo y contraseña SMTP deben configurarse como secretos del
+            repositorio en GitHub (variables <code>SMTP_EMAIL</code> y
+            <code>SMTP_PASSWORD</code>). Consulte el README para más
+            instrucciones.
+          </p>
+          <div class="modal-actions">
+            <button type="submit" class="primary">Guardar Configuración</button>
+            <button type="button" id="cancelSettings" class="secondary">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal para gráfica de velas -->
+    <div id="chartModal" class="modal hidden">
+      <div class="modal-content chart-modal">
+        <div class="chart-header">
+          <h2 id="chartTitle">Gráfica</h2>
+          <select id="timeframeSelect">
+            <option value="4h">4 horas</option>
+            <option value="1d">1 día</option>
+            <option value="1wk">1 semana</option>
+          </select>
+          <button id="closeChart" class="secondary">Cerrar</button>
+        </div>
+        <canvas id="candlestickChart" width="800" height="400"></canvas>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
